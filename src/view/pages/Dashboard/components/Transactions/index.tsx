@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { Spinner } from "@/components/Spinner";
 import emptyStateImage from "@/assets/EmptyState.svg"
@@ -6,21 +5,35 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { TransactionCard } from "@/components/TransactionCard";
 import { TransactionsIcon } from "@/components/icons/TransactionsIcon";
 import { useTransactionsController } from "./useTransactionsController";
-import { Modal } from "@/components/Modal";
+import { useTransactionContext } from "@/app/context/TransacitonContext";
+import { useEffect, useState } from "react";
 
-
-export async function Transactions() {
+export function Transactions() {
   const { 
     isInitialLoading, 
     hasTransaction, 
     isLoading,
-    fetchTransactions
-  } = await useTransactionsController()
+  } =  useTransactionsController()
+  
+  const { fetchAllTrasactions, transactions, transaction } = useTransactionContext();
+  const [loadingTransactions, setLoadingTransactions] = useState(false);
 
-
-
-  const {data} = await fetchTransactions() 
-
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoadingTransactions(true);
+      try {
+        const data = await fetchAllTrasactions();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoadingTransactions(false);
+      }
+    };
+    fetchData();
+   console.log('aqui')
+  }, [transaction]); 
+ 
+  console.log()
   return (
     <div className="bg-gray-100 rounded-2xl sm:h-full lg:max-h-[650px] px-4 py-8 md:p-10  flex flex-col">
     
@@ -68,7 +81,7 @@ export async function Transactions() {
 
             {(hasTransaction && !isLoading) && (
               <>
-                {  data.map(item => <TransactionCard amount={Number(item.amount)} type={item.type}/>)}
+                { transactions && transactions.map(item => <TransactionCard amount={Number(item.amount)} type={item.type} key={item.id}/>)}
               </>
               )
             }
@@ -77,8 +90,6 @@ export async function Transactions() {
 
         </>
       }
-
-     
 
     </div>
   )
