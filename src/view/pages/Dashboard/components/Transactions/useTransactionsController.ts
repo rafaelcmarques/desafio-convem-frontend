@@ -1,11 +1,21 @@
-import { useState } from "react";
-
-export function useTransctionsController() {
-
-  return {
-    transactions: [1],
-    isInitialLoading:false,
-    isLoading: false,
-   }
+import axios from "axios";
   
+   export async function useTransactionsController() {
+  
+    async function fetchTransactions(){
+      try {
+        const response = await axios.get('http://localhost:3333/transactions');
+        return response.data
+      } catch (error) {
+        console.log('error', error)
+      }
+    }
+    
+    
+    return {
+      hasTransaction: true,
+      isInitialLoading: false,
+      isLoading: false,
+      fetchTransactions
+    };
 }

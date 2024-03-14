@@ -1,3 +1,4 @@
+
 import { PlusIcon } from "@radix-ui/react-icons";
 import { DropdownMenu } from "../../../../../components/DropdownMenu";
 import { Expense } from "../../../../../components/icons/categories/expense/Expense";
@@ -34,6 +35,5 @@ export function Fab() {
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </div>
-
   )
 }

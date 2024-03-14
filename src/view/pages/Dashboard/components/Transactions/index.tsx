@@ -1,20 +1,25 @@
 
-import { useTransctionsController } from "./useTransactionsController";
+import Image from "next/image";
 import { Spinner } from "@/components/Spinner";
 import emptyStateImage from "@/assets/EmptyState.svg"
-import { TransactionsIcon } from "@/components/icons/TransactionsIcon";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
 import { TransactionCard } from "@/components/TransactionCard";
+import { TransactionsIcon } from "@/components/icons/TransactionsIcon";
+import { useTransactionsController } from "./useTransactionsController";
+import { Modal } from "@/components/Modal";
 
-export function Transactions() {
+
+export async function Transactions() {
   const { 
     isInitialLoading, 
-    transactions, 
+    hasTransaction, 
     isLoading,
-  } = useTransctionsController()
+    fetchTransactions
+  } = await useTransactionsController()
 
-  const hasTransaction = transactions.length > 0
+
+
+  const {data} = await fetchTransactions() 
 
   return (
     <div className="bg-gray-100 rounded-2xl sm:h-full lg:max-h-[650px] px-4 py-8 md:p-10  flex flex-col">
@@ -62,11 +67,9 @@ export function Transactions() {
             )}
 
             {(hasTransaction && !isLoading) && (
-                <>
-                  <TransactionCard amount={1000} type="credit"/>
-                  <TransactionCard amount={200} type="debit"/>
-
-                </>
+              <>
+                {  data.map(item => <TransactionCard amount={Number(item.amount)} type={item.type}/>)}
+              </>
               )
             }
 
@@ -74,6 +77,8 @@ export function Transactions() {
 
         </>
       }
+
+     
 
     </div>
   )
