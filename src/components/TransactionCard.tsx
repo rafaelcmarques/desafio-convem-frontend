@@ -17,7 +17,7 @@ export function TransactionCard ({type, amount}: TrasnctionCardProps) {
       </div>
     </div>
       <span className={cn("font-medium tracking-[-0.5px]", type=='debit'? 'text-red-600' : 'text-green-500' )}>
-          {type == 'debit' ? <> - </> : <></>}
+          {type == 'debit' ? <> - </> : <> + </>}
          {formatCurrency(amount)}
       </span>
   </div>

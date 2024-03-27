@@ -8,22 +8,18 @@ export function NewTransaction() {
   const [amount, setAmount] = useState("");
   const { createTransaction, createRandomTransactions } = useTransactionContext()
 
-
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
     try {
-
       if(!transactionType) {
         alert('Escolha o tipo de transação')
         return
       }
-
       if(!amount) {
         alert('Digite o valor da transação')
         return
       }
-
       if(Number(amount) < 0) {
         alert('O valor da transação nao pode ser menor que 0')
       }
@@ -34,10 +30,9 @@ export function NewTransaction() {
       setAmount('')
       
       console.log('Resposta da requisição:', response);
-      // Faça algo com a resposta, se necessário
+   
     } catch (error) {
       console.error('Erro ao enviar requisição:', error);
-      // Trate o erro de acordo com sua lógica de negócio
     }
   };
 

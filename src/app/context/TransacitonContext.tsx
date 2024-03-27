@@ -1,6 +1,5 @@
 
-import axios from 'axios'
-import { faker } from '@faker-js/faker'; 
+import axios from 'axios' 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react'
 
 interface CreateTransactionParams {
@@ -17,7 +16,7 @@ interface TransactionContextType {
   createRandomTransactions: () => Promise<any>
 }
 
-const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
+const TransactionContext = createContext<TransactionContextType | undefined> (undefined);
 
 export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [transaction, setTransaction] = useState({});
@@ -47,7 +46,7 @@ export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) =
 
   const generateRandomTransactionData = () => {
     const types = ['debit', 'credit'];
-    const type = types[Math.floor(Math.random() * types.length)]; // Seleciona aleatoriamente um tipo de transação
+    const type = types[Math.floor(Math.random() * types.length)];
     const amount = Math.floor(Math.random() * 1000);
     return { type, amount };
   }
@@ -75,7 +74,6 @@ export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) =
     }
   }
 
-
   return (
     <TransactionContext.Provider value={{ transaction, transactions, setTransactions, createTransaction, fetchAllTrasactions, 
       createRandomTransactions }}>
@@ -83,7 +81,6 @@ export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) =
     </TransactionContext.Provider>
   );
 }
-
 
 export const useTransactionContext = () => {
   const context = useContext(TransactionContext);

@@ -1,8 +1,6 @@
 import * as RdxDropdownMenu from '@radix-ui/react-dropdown-menu'
 import { cn } from '../utils/cn'
 
-
-
 function DropdownMenuRoot({children}: {children: React.ReactNode}) {
   return (
     <RdxDropdownMenu.Root>
@@ -23,7 +21,6 @@ interface DropdownMenuContentProps {
   children: React.ReactNode,
   className?: string
 }
-
 
 function DropdownMenuContent({children, className}: DropdownMenuContentProps) {
   return (
