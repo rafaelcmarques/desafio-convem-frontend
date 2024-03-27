@@ -39,6 +39,7 @@ export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) =
       const response = await axios.get('http://localhost:3333/transactions');
       const { data } = response.data;
       setTransactions(data);
+
     } catch (error) {
       console.log('error', error)
     }
@@ -74,9 +75,6 @@ export const TransactionProvider = ({ children }: React.PropsWithChildren<{}>) =
     }
   }
 
-  useEffect(() => {
-    fetchAllTrasactions();
-  }, []); 
 
   return (
     <TransactionContext.Provider value={{ transaction, transactions, setTransactions, createTransaction, fetchAllTrasactions, 

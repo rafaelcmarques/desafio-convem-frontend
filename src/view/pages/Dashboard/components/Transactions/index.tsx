@@ -4,48 +4,40 @@ import emptyStateImage from "@/assets/EmptyState.svg"
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { TransactionCard } from "@/components/TransactionCard";
 import { TransactionsIcon } from "@/components/icons/TransactionsIcon";
-import { useTransactionsController } from "./useTransactionsController";
 import { useTransactionContext } from "@/app/context/TransacitonContext";
 import { useEffect, useState } from "react";
 
 export function Transactions() {
-  const { 
-    isInitialLoading, 
-    hasTransaction, 
-    isLoading,
-  } =  useTransactionsController()
   
   const { fetchAllTrasactions, transactions, transaction } = useTransactionContext();
-  const [loadingTransactions, setLoadingTransactions] = useState(false);
+  const [hasTransaction, setHasTransaction] = useState(true);
+ 
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoadingTransactions(true);
       try {
-        const data = await fetchAllTrasactions();
+         await fetchAllTrasactions();
       } catch (err) {
         console.log(err);
-      } finally {
-        setLoadingTransactions(false);
-      }
+      } 
     };
-    fetchData();
-   console.log('aqui')
+     fetchData();
   }, [transaction]); 
+
+  useEffect(() => {
+    if (transactions.length > 0) {
+      setHasTransaction(true);
+    } else {
+      setHasTransaction(false);
+    }
+  }, [transactions, transaction]);
  
-  console.log()
   return (
     <div className="bg-gray-100 rounded-2xl sm:h-full lg:max-h-[650px] px-4 py-8 md:p-10  flex flex-col">
     
-      {
-        isInitialLoading &&
-        <div className="h-full w-full flex items-center justify-center">
-          <Spinner className="text-teal-900 w-10 h-10" />
-        </div>
-      }
 
       {
-        !isInitialLoading &&
+       
         <>
           <header className="">
             <div className="flex items-center justify-between">
@@ -64,13 +56,8 @@ export function Transactions() {
 
           <div className="mt-4 space-y-2 flex-1 overflow-y-auto">
             
-            {isLoading && (
-              <div className="flex flex-col items-center justify-center h-full">
-                <Spinner className="w-10 h-10" />
-              </div>
-            )}
 
-            {(!hasTransaction && !isLoading) && (
+            {!hasTransaction  && (
               <div className="flex flex-col items-center justify-center h-full">
                 <Image src={emptyStateImage} alt="mulher com uma lupa em mãos"/> 
                 <p className="font-normal text-center text-gray-700 ">
@@ -79,7 +66,7 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransaction && !isLoading) && (
+            {(hasTransaction) && (
               <>
                 { transactions && transactions.map(item => <TransactionCard amount={Number(item.amount)} type={item.type} key={item.id}/>)}
               </>
